@@ -1,17 +1,21 @@
 <<'SETUP'
-Define your parameters here.
-targeted.txt is a list of previous passwords and/or a speicalized wordlist for that custmer.
+Script to automate password cracking using hashcat. Best results from a good targeted wordlist.
+The targeted list consists of previous passwords and specialized words associated with the organization..
 Consider using DigiNinja's 'cewl' to generate a wordlist: https://github.com/digininja/CeWl
      cewl -d 3 -u "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)" -w \
      targeted.txt -v http://company.com
 Also consider adding: 
-  - Variations on the company name
-  - Current season and year e.g., Winter19
-  - Company city
-  - Account names
-  - Users first names
+  1. Variations on the company name
+  2. Current season and year e.g., Winter19
+  3. Company city
+  4. Account names
+  5. Users first names
+  6. Creds from public data breaches
+  7. Local sports teams
 
 SETUP
+
+#Assign variables
 wordlist1="/path/to/targeted.txt"
 wordlist2="/path/to/wordlists/crackstation.txt"
 hashes="/path/to/company-hashes.ntds"
@@ -194,15 +198,6 @@ $binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -k'$&' --p
 $binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -k'$.' --potfile-path $potfile
 $binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -k'$*' --potfile-path $potfile
 
-# Combinator attack using two wordlists and add a character at the beginning of the second word.
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 --potfile-path $potfile
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -k'^!' --potfile-path $potfile
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -k'^#' --potfile-path $potfile
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -k'^$' --potfile-path $potfile
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -k'^&' --potfile-path $potfile
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -k'^.' --potfile-path $potfile
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -k'^*' --potfile-path $potfile
-
 # Combinator attack using two wordlists and add a character at the end of the first word.
 $binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'$!' --potfile-path $potfile
 $binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'$#' --potfile-path $potfile
@@ -210,14 +205,6 @@ $binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'$$' --p
 $binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'$&' --potfile-path $potfile
 $binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'$.' --potfile-path $potfile
 $binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'$*' --potfile-path $potfile
-
-# Combinator attack using two wordlists and add a character at the beginning of the first word.
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'^!' --potfile-path $potfile
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'^#' --potfile-path $potfile
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'^$' --potfile-path $potfile
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'^&' --potfile-path $potfile
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'^.' --potfile-path $potfile
-$binary -O -a 1 --session $sess -m 1000 $hashes $wordlist1 $wordlist2 -j'^*' --potfile-path $potfile
 
 # Brute Force Attack
 # Brute force up to 7 characters
